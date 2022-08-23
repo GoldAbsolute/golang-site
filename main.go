@@ -9,9 +9,27 @@ import (
 	"os"
 )
 
+type test struct {
+	Ap1   string
+	Ap2   string
+	Port1 string
+}
+
 func main() {
 	// port env
 	port := os.Getenv("PORT")
+	var APP_IP string
+	_ = APP_IP
+	APP_IP = os.Getenv("APP_IP")
+	var APP_IP2 string
+	_ = APP_IP2
+	APP_IP2 = os.Getenv("IP")
+	TestData := test{
+		Ap1:   APP_IP,
+		Ap2:   APP_IP2,
+		Port1: port,
+	}
+
 	if port == "" {
 		port = "80"
 	}
@@ -29,7 +47,7 @@ func main() {
 	// routes
 	MainRouter.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		tmpl := template.Must(template.ParseFiles("templates/index.tmpl.html", "templates/header.tmpl.html", "templates/nav.tmpl.html"))
-		errT := tmpl.ExecuteTemplate(writer, "index.tmpl.html", nil)
+		errT := tmpl.ExecuteTemplate(writer, "index.tmpl.html", TestData)
 		if errT != nil {
 			panic(errT)
 		}
