@@ -29,6 +29,8 @@ func main() {
 		Ap2:   APP_IP2,
 		Port1: port,
 	}
+	log.Println(TestData)
+	fmt.Println(TestData)
 
 	if port == "" {
 		port = "80"
@@ -47,7 +49,7 @@ func main() {
 	// routes
 	MainRouter.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		tmpl := template.Must(template.ParseFiles("templates/index.tmpl.html", "templates/header.tmpl.html", "templates/nav.tmpl.html"))
-		errT := tmpl.ExecuteTemplate(writer, "index.tmpl.html", TestData)
+		errT := tmpl.ExecuteTemplate(writer, "index.tmpl.html", nil)
 		if errT != nil {
 			panic(errT)
 		}
