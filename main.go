@@ -35,8 +35,9 @@ func main() {
 			panic(errT)
 		}
 	})
-	
+
 	testSubRouter := MainRouter.PathPrefix("/test").Subrouter()
+	testSubRouter.HandleFunc("", testRoute)
 	testSubRouter.HandleFunc("/", testRoute)
 
 	err := http.ListenAndServe(":"+port, MainRouter)
