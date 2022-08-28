@@ -9,28 +9,9 @@ import (
 	"os"
 )
 
-type test struct {
-	Ap1   string
-	Ap2   string
-	Port1 string
-}
-
 func main() {
 	// port env
 	port := os.Getenv("PORT")
-	var APP_IP string
-	_ = APP_IP
-	APP_IP = os.Getenv("APP_IP")
-	var APP_IP2 string
-	_ = APP_IP2
-	APP_IP2 = os.Getenv("IP")
-	TestData := test{
-		Ap1:   APP_IP,
-		Ap2:   APP_IP2,
-		Port1: port,
-	}
-	log.Println(TestData)
-	fmt.Println(TestData)
 
 	if port == "" {
 		port = "80"
@@ -54,6 +35,9 @@ func main() {
 			panic(errT)
 		}
 	})
+	
+	testSubRouter := MainRouter.PathPrefix("/test").Subrouter()
+	testSubRouter.HandleFunc("/", testRoute)
 
 	err := http.ListenAndServe(":"+port, MainRouter)
 	if err != nil {
